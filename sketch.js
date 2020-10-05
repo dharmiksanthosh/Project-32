@@ -122,7 +122,7 @@ function mouseReleased(){
 }
 async function getTime(){
 
-    var response = await fetch('http://worldtimeapi.org/api/timezone/Asia/Kolkata');
+    var response = await fetch('https://worldtimeapi.org/api/timezone/Asia/Kolkata');
     var responsejson = await response.json();
     var datetime = responsejson.datetime;
     var hour = datetime.slice(11,13);
