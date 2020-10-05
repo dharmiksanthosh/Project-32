@@ -7,6 +7,8 @@ const Body = Matter.Body;
 var ground,hexo,ground2,ground3,state;
 var box = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","21","22","23","24","20"];
 var ropes;
+var score = 0; 
+var back,colo;
 
 function setup() {
 	createCanvas(1000, 500);
@@ -67,12 +69,15 @@ function setup() {
 	box[24] = new Box(830,120,"turquoise");
 
 	Engine.run(engine);
+
+	getTime();
 }
-
-
 function draw() {
-  background(rgb(56,44,44));
 
+if (back){
+
+  background(back);
+}
   imageMode(CENTER);
 
   ground.display();
@@ -82,48 +87,14 @@ function draw() {
   ropes.display();
   hexo.display();
 
-  // Stack1
-
-  // bottom
-  box[0].display();
-  box[2].display();
-  box[1].display();
-  box[3].display();
-  box[4].display();
-  box[5].display();
-  box[6].display();
-
-  // level2
-  box[7].display();
-  box[8].display();
-  box[9].display();
-  box[10].display();
-  box[11].display();
-
-  // level3
-  box[12].display();
-  box[13].display();
-  box[14].display();
-
- // top
-  box[15].display();
-
-//Stack2
- // bottom
- box[16].display();
- box[17].display();
- box[18].display();
- box[19].display();
- box[20].display();
-
- // level2
- box[21].display();
- box[22].display();
- box[23].display();
-
- // top
- box[24].display();
-
+for (let num = 0; num < 25; num++) {
+        
+        box[num].display();
+}
+for (let num = 0; num < 25; num++) {
+        
+        box[num].score();
+}
 
 if (state===2&&keyDown("space")){
 
@@ -131,8 +102,14 @@ if (state===2&&keyDown("space")){
 	ropes = new Chain(hexo.body,{x:100, y:300});
 	state = 1
 }
+if (colo) {
+	
+fill(colo);
+}
 textSize(20);
 text("Press Space To Get One More Chance",50,50);
+textSize(18);
+text("Score: "+score,850,40);
 }
 function mouseDragged(){
 
@@ -142,4 +119,23 @@ function mouseReleased(){
 
     ropes.fly();
 	state = 2;
+}
+async function getTime(){
+
+    var response = await fetch('http://worldtimeapi.org/api/timezone/Asia/Kolkata');
+    var responsejson = await response.json();
+    var datetime = responsejson.datetime;
+    var hour = datetime.slice(11,13);
+
+    if (hour>=06 && hour<=18) {
+        
+        bg = "silver";
+		col = "black";
+    }else{
+
+        bg = "black";
+		col = "white";
+    }
+	back = bg;
+	colo = col; 
 }

@@ -52,4 +52,11 @@ var pos = this.body.position;
      pop() 
   }
   }
+   score(){
+
+   if (this.visibility<100&&this.visibility>-1005) {
+     
+     score = score+5; 
+   }
+}
 }
